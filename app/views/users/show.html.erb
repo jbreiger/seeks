@@ -1,0 +1,31 @@
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+	<h1><%=@user.name%></h1>
+	<a href= "/users/<%=@user.id%>/edit"> Edit Profile </a>
+<br> <br>	
+<form action="/secrets" method= "POST">
+	<input type="text" name="secret[content]">
+	<button type="submit"> Create Secret </button>
+</form>
+<p> Delete a secret </p>
+	
+			
+<p> Here is this users secrets </p>
+<%@secrets.each do |x|%>
+<form action= "/secrets/<%=x.id%>" method= "POST">
+		<input name="_method" value="delete" type="hidden">
+	<p> <%= x.content %> </p>
+
+<button type= 'submit'> Delete </button>
+	</form>
+	<%end%>	
+	<h3> Secrets Liked </h3>
+	<% @secrets_liked.each do |s| %>
+	<%= s.content %> 
+	<%= s.likes.count%> likes
+	<%end%>
+</body>
+</html>

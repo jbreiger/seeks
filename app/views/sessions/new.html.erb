@@ -1,0 +1,8 @@
+<h1>Sessions#new</h1>
+<form action='/sessions' method= "POST">
+	<input name="authenticity_token" value="<%= form_authenticity_token %>" type="hidden">
+	<input type= 'text' name="sessions[email]">
+	<input type= 'text' name="sessions[password]">
+	<button type='submit'> Log In </button>
+	<%= flash[:errors]%>
+</form>	

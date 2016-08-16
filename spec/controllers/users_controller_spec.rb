@@ -1,0 +1,64 @@
+require 'rails_helper'
+RSpec.describe UsersController, type: :controller do
+  describe "when signed in as the wrong user" do
+    before do
+      @wrong_user = create_user 'julius', 'julius@lakers.com'
+      session[:id] = @wrong_user.id
+    end
+    it "cannot access profile page another user" do
+      get :edit, id: @user
+      expect(response).to redirect_to("/users/#{@wrong_user.id}")
+    end
+    it "cannot update another user" do
+      patch :update, id: @user
+      expect(response).to redirect_to("/users/#{@wrong_user.id}")
+    end
+    it "cannot destroy another user" do
+      delete :destroy, id: @user
+      expect(response).to redirect_to("/users/#{@wrong_user.id}")
+    end
+  end
+
+
+  before do
+    @user = create_user
+  end
+  describe "when not logged in" do
+    before do
+      session[:id] = nil
+    end
+    it "cannot access show" do
+      get :show, id: @user
+      expect(response).to redirect_to('/sessions/new')
+    end
+    it "cannot access edit" do
+      get :edit, id: @user
+      expect(response).to redirect_to('/sessions/new')
+    end
+    it "cannot access update" do
+      patch :update, id: @user
+      expect(response).to redirect_to('/sessions/new')
+    end
+    it "cannot access destroy" do
+      delete :destroy, id: @user
+      expect(response).to redirect_to('/sessions/new')
+    end
+  end
+end
+# RSpec.describe UsersController, type: :controller do
+
+#   describe "GET #new" do
+#     it "returns http success" do
+#       get :new
+#       expect(response).to have_http_status(:success)
+#     end
+#   end
+
+#   describe "GET #index" do
+#     it "returns http success" do
+#       get :index
+#       expect(response).to have_http_status(:success)
+#     end
+#   end
+
+# end

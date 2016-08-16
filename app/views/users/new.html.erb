@@ -1,0 +1,14 @@
+<h1> New user page </h1>
+<% if flash[:messages] %>
+<% flash[:errors].each |x|%>
+	<%= x %>
+<% end %>
+
+<form action= "/users" method= "POST">
+	email:<input type= 'text' name="user[email]">
+	name:<input type= 'text' name="user[name]">
+	password:<input type= 'text' name="user[password]">
+	password confirmation<input type= 'text' name="user[password_confirmation]">
+	<button type='submit'> Join </button>
+</form>
+
